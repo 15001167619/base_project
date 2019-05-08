@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-answerSpecial-add" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">添加专题</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+                                <select name="specialType" class="form-control m-b" th:with="type=${@dict.getSpecialData()}">
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">添加图片</label>
+                <div class="col-sm-8">
+                    <div class="action">
+                        <div class="new-contentarea tc">
+                            <a href="javascript:void(0)" class="upload-img"> <label for="avatar">上传图像</label> </a>
+                            <input type="file"  name="avatar" onchange="xmTanUploadImg(this)" id="avatar" accept="image/*"/>
+                        </div>
+                        <img id="xmTanImg" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"/>
+                        <div id="xmTanDiv"></div>
+                    </div>
+                </div>
+            </div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/answerSpecial"
+		$("#form-answerSpecial-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+
+
+        //选择图片，马上预览
+        function xmTanUploadImg(obj) {
+            var file = obj.files[0];
+
+            console.log(obj);console.log(file);
+            console.log("file.size = " + file.size);  //file.size 单位为byte
+
+            var reader = new FileReader();
+
+            //读取文件过程方法
+            reader.onloadstart = function (e) {
+                console.log("开始读取....");
+            }
+            reader.onprogress = function (e) {
+                console.log("正在读取中....");
+            }
+            reader.onabort = function (e) {
+                console.log("中断读取....");
+            }
+            reader.onerror = function (e) {
+                console.log("读取异常....");
+            }
+            reader.onload = function (e) {
+                console.log("成功读取....");
+
+                var img = document.getElementById("xmTanImg");
+                img.src = e.target.result;
+                //或者 img.src = this.result;  //e.target == this
+            }
+
+            reader.readAsDataURL(file)
+        }
+		
+		function submitHandler() {
+            var path=prefix+"/add"
+            $.ajax({
+                url:path,
+                type : "POST",
+                async: false,
+                cache: false,  //此处设置false
+                contentType: false,//必须设置false ,formupload1表单中必须设置enctype="multipart/form-data"
+                processData: false,  //必须设置fals
+                data :new FormData(document.getElementById("form-answerSpecial-add")),
+                success:function (data) {
+                    $.operate.successCallback(data);
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                }
+            })
+	    }
+	</script>
+</body>
+</html>

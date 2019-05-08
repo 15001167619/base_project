@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-answerCover-edit" enctype="multipart/form-data" th:object="${answerCover}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">名称：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" class="form-control" th:field="*{name}" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">图片类型：</label>
+				<div class="col-sm-8">
+					<select name="type" class="form-control m-b" th:with="typ=${@dict.getType('answer_cover_type')}">
+						<option th:each="dict : ${typ}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{type}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+					<input id="assss"  th:field="*{picPath}" class="form-control"  type="hidden">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">启用状态</label>
+				<div class="col-sm-8">
+					<div class="input-group" style="width: 100%">
+						<select name="status" class="form-control m-b" th:field="*{status}" th:value="*{status}" lay-verify="required">
+							<option th:selected="${status=='1'}" value="1">不启动</option>
+							<option th:selected="${status=='0'}" value="0">启动</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">修改图片</label>
+				<div class="col-sm-8">
+			<div class="action">
+				<div class="new-contentarea tc">
+					<input type="file"  name="file" onchange="xmTanUploadImg(this)"  id="avatarCover" accept="image/*"/>
+					<img id="xmTanImg"  style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;">
+					<div id="xmTanDiv"></div>
+				</div>
+			</div>
+			</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var imgUrl = $("#assss").val()
+        var id = $("#id").val()
+		var prefix = ctx + "system/answerCover/edit";
+		var picUrl="/profile/avatar/"+imgUrl;
+        var img = document.getElementById("xmTanImg");
+        img.src = picUrl;
+		$("#form-answerCover-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+        //判断浏览器是否支持FileReader接口
+        if (typeof FileReader == 'undefined') {
+            document.getElementById("xmTanDiv").InnerHTML = "<h1>当前浏览器不支持FileReader接口</h1>";
+            //使选择控件不可操作
+            document.getElementById("avatar").setAttribute("disabled", "disabled");
+        }
+        //选择图片，马上预览
+        function xmTanUploadImg(obj) {
+            var file = obj.files[0];
+
+            console.log(obj);console.log(file);
+            console.log("file.size = " + file.size);  //file.size 单位为byte
+
+            var reader = new FileReader();
+
+            //读取文件过程方法
+            reader.onloadstart = function (e) {
+                console.log("开始读取....");
+            }
+            reader.onprogress = function (e) {
+                console.log("正在读取中....");
+            }
+            reader.onabort = function (e) {
+                console.log("中断读取....");
+            }
+            reader.onerror = function (e) {
+                console.log("读取异常....");
+            }
+            reader.onload = function (e) {
+                console.log("成功读取....");
+
+                var img = document.getElementById("xmTanImg");
+                img.src = e.target.result;
+                //或者 img.src = this.result;  //e.target == this
+            }
+
+            reader.readAsDataURL(file)
+        }
+
+        function submitHandler() {
+            paht=prefix
+            $.ajax({
+                url:paht,
+                type : "POST",
+                async: false,
+                cache: false,  //此处设置false
+                contentType: false,//必须设置false ,formupload1表单中必须设置enctype="multipart/form-data"
+                processData: false,  //必须设置fals
+                data :new FormData(document.getElementById("form-answerCover-edit")),
+                success:function (data) {
+                    $.operate.successCallback(data);
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                }
+            })
+        }
+
+	</script>
+</body>
+</html>
