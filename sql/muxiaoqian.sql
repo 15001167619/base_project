@@ -173,9 +173,9 @@ CREATE TABLE IF NOT EXISTS `sys_logininfor` (
   `msg` varchar(255) DEFAULT '' COMMENT '提示消息',
   `login_time` datetime DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8 COMMENT='系统访问记录';
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8 COMMENT='系统访问记录';
 
--- 正在导出表  muxiaoqian.sys_logininfor 的数据：~34 rows (大约)
+-- 正在导出表  muxiaoqian.sys_logininfor 的数据：~36 rows (大约)
 /*!40000 ALTER TABLE `sys_logininfor` DISABLE KEYS */;
 INSERT INTO `sys_logininfor` (`info_id`, `login_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `msg`, `login_time`) VALUES
 	(100, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 7', '0', '登录成功', '2019-03-16 12:20:15'),
@@ -211,7 +211,9 @@ INSERT INTO `sys_logininfor` (`info_id`, `login_name`, `ipaddr`, `login_location
 	(130, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 16:44:38'),
 	(131, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 16:46:57'),
 	(132, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 17:12:14'),
-	(133, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 17:30:20');
+	(133, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 17:30:20'),
+	(134, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 17:42:10'),
+	(135, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-05-08 18:15:38');
 /*!40000 ALTER TABLE `sys_logininfor` ENABLE KEYS */;
 
 
@@ -234,13 +236,12 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   PRIMARY KEY (`menu_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2005 DEFAULT CHARSET=utf8 COMMENT='菜单权限表';
 
--- 正在导出表  muxiaoqian.sys_menu 的数据：~85 rows (大约)
+-- 正在导出表  muxiaoqian.sys_menu 的数据：~78 rows (大约)
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
 	(1, '系统管理', 0, 1, '#', 'M', '0', '', 'fa fa-gear', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '系统管理目录'),
 	(2, '系统监控', 0, 2, '#', 'M', '0', '', 'fa fa-video-camera', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '系统监控目录'),
 	(3, '系统工具', 0, 3, '#', 'M', '0', '', 'fa fa-bars', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '系统工具目录'),
-	(4, '试题管理', 0, 4, '#', 'M', '0', '', 'fa fa-bars', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '试题管理目录'),
 	(100, '用户管理', 1, 1, '/system/user', 'C', '0', 'system:user:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '用户管理菜单'),
 	(101, '角色管理', 1, 2, '/system/role', 'C', '0', 'system:role:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '角色管理菜单'),
 	(102, '菜单管理', 1, 3, '/system/menu', 'C', '0', 'system:menu:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '菜单管理菜单'),
@@ -251,7 +252,6 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 	(107, '通知公告', 1, 8, '/system/notice', 'C', '0', 'system:notice:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '通知公告菜单'),
 	(108, '日志管理', 1, 9, '#', 'M', '0', '', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '日志管理菜单'),
 	(109, '在线用户', 2, 1, '/monitor/online', 'C', '0', 'monitor:online:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '在线用户菜单'),
-	(110, '定时任务', 2, 2, '/monitor/job', 'C', '0', 'monitor:job:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '定时任务菜单'),
 	(111, '数据监控', 2, 3, '/monitor/data', 'C', '0', 'monitor:data:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '数据监控菜单'),
 	(112, '服务监控', 2, 3, '/monitor/server', 'C', '0', 'monitor:server:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '服务监控菜单'),
 	(113, '表单构建', 3, 1, '/tool/build', 'C', '0', 'tool:build:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '表单构建菜单'),
@@ -316,12 +316,7 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 	(1054, '任务详细', 110, 6, '#', 'F', '0', 'monitor:job:detail', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', ''),
 	(1055, '任务导出', 110, 7, '#', 'F', '0', 'monitor:job:export', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', ''),
 	(1056, '生成查询', 114, 1, '#', 'F', '0', 'tool:gen:list', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', ''),
-	(1057, '生成代码', 114, 2, '#', 'F', '0', 'tool:gen:code', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', ''),
-	(2000, '试题', 4, 1, '/system/examQuestion', 'C', '0', 'system:examQuestion:view', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '试题菜单'),
-	(2001, '试题查询', 2000, 1, '#', 'F', '0', 'system:examQuestion:list', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', ''),
-	(2002, '试题新增', 2000, 2, '#', 'F', '0', 'system:examQuestion:add', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', ''),
-	(2003, '试题修改', 2000, 3, '#', 'F', '0', 'system:examQuestion:edit', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', ''),
-	(2004, '试题删除', 2000, 4, '#', 'F', '0', 'system:examQuestion:remove', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '');
+	(1057, '生成代码', 114, 2, '#', 'F', '0', 'tool:gen:code', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
@@ -365,9 +360,9 @@ CREATE TABLE IF NOT EXISTS `sys_oper_log` (
   `error_msg` varchar(2000) DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COMMENT='操作日志记录';
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COMMENT='操作日志记录';
 
--- 正在导出表  muxiaoqian.sys_oper_log 的数据：~18 rows (大约)
+-- 正在导出表  muxiaoqian.sys_oper_log 的数据：~19 rows (大约)
 /*!40000 ALTER TABLE `sys_oper_log` DISABLE KEYS */;
 INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `status`, `error_msg`, `oper_time`) VALUES
 	(100, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.genCode()', 1, 'admin', '研发部门', '/tool/gen/genCode/exam_question', '127.0.0.1', '内网IP', '{ }', 0, NULL, '2019-03-16 12:25:36'),
@@ -387,7 +382,8 @@ INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `oper
 	(114, '试题', 1, 'com.ruoyi.web.controller.system.ExamQuestionController.addSave()', 1, 'admin', '研发部门', '/system/examQuestion/add', '127.0.0.1', '内网IP', '{\r\n  "type" : [ "1" ],\r\n  "level" : [ "0" ],\r\n  "question" : [ "滴滴滴" ],\r\n  "analyze" : [ "给对方" ],\r\n  "timeLimit" : [ "10" ],\r\n  "answerContent" : [ "苟富贵" ],\r\n  "status" : [ "0" ]\r\n}', 1, '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time ) \n         values ( 1,\n			\'滴滴滴\',\n			10,\' at line 7\r\n### The error may involve com.ruoyi.system.mapper.ExamQuestionMapper.insertExamQuestion-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into exam_question    ( type,    question,    time_limit,    status,    answer_content,    analyze,    level,    create_time )           values ( ?,    ?,    ?,    ?,    ?,    ?,    ?,    now() )\r\n### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time ) \n         values ( 1,\n			\'滴滴滴\',\n			10,\' at line 7\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time ) \n         values ( 1,\n			\'滴滴滴\',\n			10,\' at line 7', '2019-03-16 14:28:10'),
 	(115, '试题', 1, 'com.ruoyi.web.controller.system.ExamQuestionController.addSave()', 1, 'admin', '研发部门', '/system/examQuestion/add', '127.0.0.1', '内网IP', '{\r\n  "type" : [ "1" ],\r\n  "level" : [ "0" ],\r\n  "question" : [ "对滴" ],\r\n  "analyze" : [ "也都同意" ],\r\n  "timeLimit" : [ "10" ],\r\n  "answerContent" : [ "顶顶顶顶" ],\r\n  "status" : [ "0" ]\r\n}', 1, '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time\n       ) VALUES (\n			1,\n			\'对滴\',\n			10,\n		\' at line 7\r\n### The error may involve com.ruoyi.system.mapper.ExamQuestionMapper.insertExamQuestion-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into exam_question(    type,    question,    time_limit,    status,    answer_content,    analyze,    level,    create_time        ) VALUES (    ?,    ?,    ?,    ?,    ?,    ?,    ?,    now()          )\r\n### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time\n       ) VALUES (\n			1,\n			\'对滴\',\n			10,\n		\' at line 7\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'analyze,\n			level,\n			create_time\n       ) VALUES (\n			1,\n			\'对滴\',\n			10,\n		\' at line 7', '2019-03-16 14:32:17'),
 	(116, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.changeStatus()', 1, 'admin', '研发部门', '/system/user/changeStatus', '127.0.0.1', '内网IP', '{\r\n  "userId" : [ "2" ],\r\n  "status" : [ "1" ]\r\n}', 0, NULL, '2019-03-16 14:43:59'),
-	(117, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.changeStatus()', 1, 'admin', '研发部门', '/system/user/changeStatus', '127.0.0.1', '内网IP', '{\r\n  "userId" : [ "2" ],\r\n  "status" : [ "0" ]\r\n}', 0, NULL, '2019-03-16 14:44:02');
+	(117, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.changeStatus()', 1, 'admin', '研发部门', '/system/user/changeStatus', '127.0.0.1', '内网IP', '{\r\n  "userId" : [ "2" ],\r\n  "status" : [ "0" ]\r\n}', 0, NULL, '2019-03-16 14:44:02'),
+	(118, '个人信息', 2, 'com.etycx.web.controller.system.SysProfileController.update()', 1, 'admin', '研发部门', '/system/user/profile/update', '127.0.0.1', '内网IP', '{\r\n  "userId" : [ "1" ],\r\n  "loginName" : [ "admin" ],\r\n  "dept.deptName" : [ "研发部门" ],\r\n  "userName" : [ "慕小谦" ],\r\n  "email" : [ "15001167619@163.com" ],\r\n  "phonenumber" : [ "15001167619" ],\r\n  "sex" : [ "0" ]\r\n}', 0, NULL, '2019-05-08 18:18:03');
 /*!40000 ALTER TABLE `sys_oper_log` ENABLE KEYS */;
 
 
@@ -577,7 +573,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
 -- 正在导出表  muxiaoqian.sys_user 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
-	(1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2019-05-08 17:30:20', 'admin', '2018-03-16 11:33:00', 'ry', '2019-05-08 17:30:20', '管理员'),
+	(1, 103, 'admin', '慕小谦', '00', '15001167619@163.com', '15001167619', '0', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2019-05-08 18:15:38', 'admin', '2018-03-16 11:33:00', 'ry', '2019-05-08 18:18:03', '管理员'),
 	(2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2018-03-16 11:33:00', 'admin', '2018-03-16 11:33:00', 'ry', '2019-03-16 14:44:02', '测试员');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 
@@ -601,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `sys_user_online` (
 -- 正在导出表  muxiaoqian.sys_user_online 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `sys_user_online` DISABLE KEYS */;
 INSERT INTO `sys_user_online` (`sessionId`, `login_name`, `dept_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `start_timestamp`, `last_access_time`, `expire_time`) VALUES
-	('1e103b42-e3e3-4957-83af-0e7d108be05a', 'admin', '研发部门', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', 'on_line', '2019-05-08 17:12:07', '2019-05-08 17:30:20', 1800000);
+	('803f757f-47a6-4f0e-b173-76071db94b04', 'admin', '研发部门', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', 'on_line', '2019-05-08 18:15:28', '2019-05-08 18:18:04', 1800000);
 /*!40000 ALTER TABLE `sys_user_online` ENABLE KEYS */;
 
 
