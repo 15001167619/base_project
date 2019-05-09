@@ -1,4 +1,4 @@
-package cn.highset.admin;
+package com.etycx;
 
 
 import com.etycx.Application;
