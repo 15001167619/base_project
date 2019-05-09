@@ -74,7 +74,7 @@ public class Global
      */
     public static String getName()
     {
-        return StringUtils.nvl(getConfig("ruoyi.name"), "RuoYi");
+        return StringUtils.nvl(getConfig("muxiaoqian.name"), "慕小谦");
     }
 
     /**
@@ -82,7 +82,7 @@ public class Global
      */
     public static String getVersion()
     {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "3.2.0");
+        return StringUtils.nvl(getConfig("muxiaoqian.version"), "1.0.0");
     }
 
     /**
@@ -90,7 +90,7 @@ public class Global
      */
     public static String getCopyrightYear()
     {
-        return StringUtils.nvl(getConfig("ruoyi.copyrightYear"), "2018");
+        return StringUtils.nvl(getConfig("muxiaoqian.copyrightYear"), "2019");
     }
 
     /**
@@ -98,7 +98,7 @@ public class Global
      */
     public static Boolean isAddressEnabled()
     {
-        return Boolean.valueOf(getConfig("ruoyi.addressEnabled"));
+        return Boolean.valueOf(getConfig("muxiaoqian.addressEnabled"));
     }
 
     /**
@@ -106,7 +106,7 @@ public class Global
      */
     public static String getProfile()
     {
-        return getConfig("ruoyi.profile");
+        return getConfig("muxiaoqian.profile");
     }
 
     /**
@@ -114,7 +114,7 @@ public class Global
      */
     public static String getAvatarPath()
     {
-        return getConfig("ruoyi.profile") + "avatar/";
+        return getConfig("muxiaoqian.profile") + "avatar/";
     }
 
     /**
@@ -122,7 +122,7 @@ public class Global
      */
     public static String getDownloadPath()
     {
-        return getConfig("ruoyi.profile") + "download/";
+        return getConfig("muxiaoqian.profile") + "download/";
     }
 
     /**
@@ -130,6 +130,6 @@ public class Global
      */
     public static String getUploadPath()
     {
-        return getConfig("ruoyi.profile") + "upload/";
+        return getConfig("muxiaoqian.profile") + "upload/";
     }
 }
