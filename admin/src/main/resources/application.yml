@@ -18,6 +18,9 @@ jwt:
   auth-path: auth
   md5-key: randomKey
 
+specialValidator:
+  enable: true # 是否开启 特殊校验 调试  true 开启，false 关闭
+
 # 开发环境配置
 server:
   # 服务端口
@@ -62,7 +65,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   profiles: 
-    active: @spring.active@
+    active: dev
   # 文件上传
   servlet:
      multipart:

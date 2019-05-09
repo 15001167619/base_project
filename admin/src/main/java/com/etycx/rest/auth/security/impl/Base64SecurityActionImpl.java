@@ -1,6 +1,6 @@
 package com.etycx.rest.auth.security.impl;
 
-import cn.highset.api.auth.security.DataSecurityAction;
+import com.etycx.rest.auth.security.DataSecurityAction;
 import org.springframework.util.Base64Utils;
 
 public class Base64SecurityActionImpl implements DataSecurityAction {

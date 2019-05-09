@@ -1,6 +1,8 @@
 package com.etycx.rest.auth.controller;
 
 
+import com.etycx.framework.cache.RedisUtil;
+import com.etycx.framework.config.properties.JwtProperties;
 import com.etycx.rest.auth.controller.dto.AuthResponseImpl;
 import com.etycx.rest.auth.util.JwtTokenUtil;
 import com.etycx.rest.auth.validator.IReqValidator;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author 武海升
+ */
 @RestController
 public class AuthController {
 

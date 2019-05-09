@@ -1,6 +1,9 @@
 # 数据源配置
 spring:
     datasource:
+        redis:
+            password: pwd666
+            host: 123.56.15.166
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
@@ -13,9 +16,9 @@ spring:
             slave:
                 # 从数据源开关/默认关闭
                 enabled: false
-                url: 
-                username: 
-                password: 
+                url:
+                username:
+                password:
             # 初始连接数
             initialSize: 5
             # 最小连接池数量测需要关闭的空闲连接，单位是毫秒
@@ -35,7 +38,7 @@ spring:
             testWhileIdle: true
             testOnBorrow: false
             testOnReturn: false
-            webStatFilter: 
+            webStatFilter:
                 enabled: true
             statViewServlet:
                 enabled: true

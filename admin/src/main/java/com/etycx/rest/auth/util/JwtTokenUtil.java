@@ -1,8 +1,7 @@
 package com.etycx.rest.auth.util;
 
-import cn.highset.admin.config.properties.JwtProperties;
-import cn.highset.admin.modular.system.entity.HealthooUser;
-import com.alibaba.fastjson.JSON;
+import com.etycx.framework.config.properties.JwtProperties;
+import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author 武海升
+ */
 @Component
 public class JwtTokenUtil {
 
@@ -69,7 +71,9 @@ public class JwtTokenUtil {
      * 生成签名sign (通过用户信息和签名时候用的随机数)
      */
     public String generateSign(String credenceUnique, String randomKey) {
-        String jsonSign = JSON.toJSONString(new HealthooUser(credenceUnique));
+        //系统用户信息
+        //String jsonSign = JSON.toJSONString(new HealthooUser(credenceUnique));
+        String jsonSign = "";
         return MD5Util.encrypt(jsonSign + randomKey);
     }
 
@@ -85,7 +89,7 @@ public class JwtTokenUtil {
                 .setSubject(subject)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
+                //.signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
                 .compact();
     }
 
@@ -97,8 +101,6 @@ public class JwtTokenUtil {
     }
 
 
-    public static void main(String[] args) {
 
-    }
 
 }

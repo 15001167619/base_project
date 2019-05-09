@@ -1,8 +1,8 @@
 package com.etycx.rest.auth.interceptor;
 
-import cn.highset.api.auth.util.JwtTokenUtil;
-import cn.highset.base.core.config.cache.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.etycx.framework.cache.RedisUtil;
+import com.etycx.rest.auth.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,17 @@ public class URLInterceptor implements HandlerInterceptor {
     final String TOKEN_PATH = "/api/auth/getToken";
     final String AUTH_PATH = "/api/auth";
 
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
         String requestMethod = request.getRequestURI();
-        if(requestMethod==null)
+        if(requestMethod==null){
             return false;
+        }
         // 获取 token
-        if(TOKEN_PATH.equals(requestMethod))
+        if(TOKEN_PATH.equals(requestMethod)){
             return true;
-
+        }
         // 调用 带有 anth 接口 需校验
         if(requestMethod.contains(AUTH_PATH)){
             String token = request.getHeader("token");
