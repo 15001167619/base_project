@@ -1,9 +1,8 @@
-# 数据源配置
 spring:
     datasource:
-        redis:
-            password: pwd666
-            host: 123.56.15.166
+    redis:
+        password: pwd666
+        host: 123.56.15.166
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
