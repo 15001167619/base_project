@@ -1,7 +1,6 @@
 package com.etycx;
 
 
-import com.etycx.Application;
 import com.etycx.framework.cache.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
