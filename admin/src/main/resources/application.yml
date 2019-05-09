@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: 答题管理系统
+  name: 慕小谦
   # 版本
   version: 1.0.0
   # 版权年份
@@ -10,6 +10,13 @@ ruoyi:
   profile: C:/profile/
   # 获取ip地址开关
   addressEnabled: true
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 7200      #1天 单位:秒 86400
+  auth-path: auth
+  md5-key: randomKey
 
 # 开发环境配置
 server:
@@ -55,7 +62,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   profiles: 
-    active: druid
+    active: @spring.active@
   # 文件上传
   servlet:
      multipart:

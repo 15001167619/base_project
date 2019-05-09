@@ -1,6 +1,7 @@
 package com.etycx.framework.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import cn.hutool.core.collection.CollectionUtil;
 import com.etycx.common.utils.StringUtils;
 import com.etycx.framework.shiro.realm.UserRealm;
 import com.etycx.framework.shiro.session.OnlineSessionDAO;
@@ -32,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,8 +42,13 @@ import java.util.Map;
  * @author ruoyi
  */
 @Configuration
-public class ShiroConfig
-{
+public class ShiroConfig {
+
+    /**
+     * 不需要权限验证的资源表达式
+     */
+    List<String> NONE_PERMISSION_RES = CollectionUtil.newLinkedList("/favicon.ico**","/ruoyi.png**","/css/**","/docs/**","/fonts/**", "/img/**", "/ajax/**","/api/**", "/js/**", "/ruoyi/**", "/druid/**", "/captcha/captchaImage**");
+
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
     // Session超时时间，单位为毫秒（默认30分钟）
@@ -266,26 +273,28 @@ public class ShiroConfig
         // 权限认证失败，则跳转到指定页面
         shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);
         // Shiro连接约束配置，即过滤链的定义
+        /**
+         * 配置shiro拦截器链
+         *
+         * anon  不需要认证
+         * authc 需要认证
+         * user  验证通过或RememberMe登录的都可以
+         *
+         * 当应用开启了rememberMe时,用户下次访问时可以是一个user,但不会是authc,因为authc是需要重新认证的
+         *
+         * 顺序从上到下,优先级依次降低
+         *
+         * api开头的接口，走rest api鉴权，不走shiro鉴权
+         *
+         */
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 对静态资源设置匿名访问
-        filterChainDefinitionMap.put("/favicon.ico**", "anon");
-        filterChainDefinitionMap.put("/ruoyi.png**", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/docs/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/ajax/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/ruoyi/**", "anon");
-        filterChainDefinitionMap.put("/druid/**", "anon");
-        filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
+        for (String nonePermissionRe : NONE_PERMISSION_RES) {
+            filterChainDefinitionMap.put(nonePermissionRe, "anon");
+        }
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
-        // 系统权限列表
-        // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
-
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("onlineSession", onlineSessionFilter());
         filters.put("syncOnlineSession", syncOnlineSessionFilter());
@@ -293,11 +302,9 @@ public class ShiroConfig
         // 注销成功，则跳转到指定页面
         filters.put("logout", logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
-
         // 所有请求需要认证
         filterChainDefinitionMap.put("/**", "user,onlineSession,syncOnlineSession");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
         return shiroFilterFactoryBean;
     }
 
