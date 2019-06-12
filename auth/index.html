@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>web接口测试</title>
+    <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.js"></script>  
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    
+    <script type="text/javascript">
+
+    function sj1(){
+      var timestamp = new Date().getTime();
+      console.log(timestamp)  //1560310882369
+      var hash = md5("appKey=OiMWgmrILRfLK4IG#interfaceName=exampleAdd#timestamp="+timestamp+"#dataParams=userId=2&name=武海升&age=24"); 
+      console.log(hash)  //bd5570eff3cebda4e2ebfdddd8934651
+      return hash;
+    }
+
+
+   
+    function AddTest() {
+        var comment = {};
+        comment.appKey = "OiMWgmrILRfLK4IG";
+        comment.interfaceName = "exampleAdd";
+        comment.dataParams = "userId=2&name=武海升&age=24";
+        comment.apiSign = sj1();
+
+        debugger;
+
+        $.ajax({
+            url: 'http://localhost/api/exampleAdd',
+            data: $.toJSON(comment),
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            cache: false,
+            success: function(data) {
+                //根据返回值data.d处理    
+            },
+            error: function(xhr) {
+                //中间发生异常，具体查看xhr.responseText
+            }
+        });
+    }
+
+        
+
+
+    </script>
+    
+  </head>
+  <body>
+    <button onclick="sj1()">调用函数</button>
+    <button onclick="AddTest()">调用接口</button>
+  </body>
+</html>
