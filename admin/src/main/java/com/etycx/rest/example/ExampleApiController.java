@@ -4,10 +4,7 @@ import com.etycx.common.base.BaseApiController;
 import com.etycx.common.constant.InterfaceAppKeyConstants;
 import com.etycx.common.utils.Md5Utils;
 import com.etycx.common.utils.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,6 +15,9 @@ import java.util.stream.Stream;
  * @description Api接口示例 均为POST请求
  * @date 2019/6/12 9:47
  */
+@CrossOrigin(origins = "*",
+        maxAge = 3600,
+        methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
 @RequestMapping(value = "api")
 public class ExampleApiController extends BaseApiController {
@@ -48,10 +48,11 @@ public class ExampleApiController extends BaseApiController {
         String interfaceName = "exampleAdd";
         String dataParams = (String)params.get("dataParams");
         String apiSign = (String)params.get("apiSign");
+        Long timestamp = (Long)params.get("timestamp");
 
-        //long timestamp = System.currentTimeMillis();
 
-        long timestamp = 1560310882369L;
+
+        System.out.println("timestamp ---------------"+timestamp);
 
 
         if( StringUtils.isEmpty(appKey) || StringUtils.isEmpty(dataParams)
