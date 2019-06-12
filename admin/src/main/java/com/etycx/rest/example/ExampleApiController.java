@@ -49,10 +49,19 @@ public class ExampleApiController extends BaseApiController {
         String dataParams = (String)params.get("dataParams");
         String apiSign = (String)params.get("apiSign");
         Long timestamp = (Long)params.get("timestamp");
+        long currentTime = System.currentTimeMillis();
 
+        //接口有效访问时间
+        long validTime = 1000L;
+
+        if(currentTime - timestamp > validTime){
+            return isErrorSignData();
+        }
 
 
         System.out.println("timestamp ---------------"+timestamp);
+
+
 
 
         if( StringUtils.isEmpty(appKey) || StringUtils.isEmpty(dataParams)
