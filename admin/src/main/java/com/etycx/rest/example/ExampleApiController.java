@@ -2,6 +2,7 @@ package com.etycx.rest.example;
 
 import com.etycx.common.base.BaseApiController;
 import com.etycx.common.constant.InterfaceAppKeyConstants;
+import com.etycx.common.utils.AesUtil;
 import com.etycx.common.utils.Md5Utils;
 import com.etycx.common.utils.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -47,23 +48,17 @@ public class ExampleApiController extends BaseApiController {
         String appKey = InterfaceAppKeyConstants.EXAMPLE_ADD_APP_KEY;
         String interfaceName = "exampleAdd";
         String dataParams = (String)params.get("dataParams");
+
+
         String apiSign = (String)params.get("apiSign");
         Long timestamp = (Long)params.get("timestamp");
         long currentTime = System.currentTimeMillis();
-
         //接口有效访问时间
         long validTime = 1000L;
-
         if(currentTime - timestamp > validTime){
             return isErrorSignData();
         }
-
-
         System.out.println("timestamp ---------------"+timestamp);
-
-
-
-
         if( StringUtils.isEmpty(appKey) || StringUtils.isEmpty(dataParams)
                 ||StringUtils.isEmpty(apiSign) ){
             return isNullData();
@@ -76,7 +71,7 @@ public class ExampleApiController extends BaseApiController {
         if(!apiSign.equals(currentSign)){
             return isErrorSignData();
         }
-
+        dataParams = AesUtil.aesDecrypt(dataParams);
         Map<String, String> dataParamsMap = Stream.of(dataParams.split("&"))
                 .map(str -> str.split("="))
                 .collect(Collectors.toMap(s -> s[0], s -> s[1]));
