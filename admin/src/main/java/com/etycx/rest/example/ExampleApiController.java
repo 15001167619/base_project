@@ -45,59 +45,18 @@ public class ExampleApiController extends BaseApiController {
     public Object exampleAdd(@RequestBody Map<String,Object> params) {
         if(params == null){
             return isNullData();
+        }else {
+
         }
-        // 获取 appKey
-        String appKey = InterfaceAppKeyConstants.EXAMPLE_ADD_APP_KEY;
-        String interfaceName = "exampleAdd";
         String dataParams = (String)params.get("dataParams");
-
-
-        String apiSign = (String)params.get("apiSign");
-        Long timestamp = (Long)params.get("timestamp");
-        long currentTime = System.currentTimeMillis();
-        //接口有效访问时间
-        long validTime = 1000L;
-        if(currentTime - timestamp > validTime){
-            return isErrorSignData();
+        if(StringUtils.isNotEmpty(dataParams)){
+            dataParams = AesUtil.aesDecrypt(dataParams);
+            Map<String, String> dataParamsMap = Stream.of(dataParams.split("&"))
+                    .map(str -> str.split("="))
+                    .collect(Collectors.toMap(s -> s[0], s -> s[1]));
+            //获取入参
+            System.out.println(dataParamsMap);
         }
-        System.out.println("timestamp ---------------"+timestamp);
-        if( StringUtils.isEmpty(appKey) || StringUtils.isEmpty(dataParams)
-                ||StringUtils.isEmpty(apiSign) ){
-            return isNullData();
-        }
-
-        String currentSign = Md5Utils.hash("appKey=" + appKey
-                + "#interfaceName=" + interfaceName
-                + "#timestamp=" + timestamp
-                + "#dataParams=" + dataParams);
-        if(!apiSign.equals(currentSign)){
-            return isErrorSignData();
-        }
-        dataParams = AesUtil.aesDecrypt(dataParams);
-        Map<String, String> dataParamsMap = Stream.of(dataParams.split("&"))
-                .map(str -> str.split("="))
-                .collect(Collectors.toMap(s -> s[0], s -> s[1]));
-
-        //获取入参
-        System.out.println(dataParamsMap);
-
-
-        // InterfaceAppKeyConstants
-
-
-
-
-
-
-        return null;
+        return isNullData();
     }
-
-
-
-
-
-
-
-
-
 }

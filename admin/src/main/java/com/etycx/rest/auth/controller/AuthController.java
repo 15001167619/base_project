@@ -37,7 +37,7 @@ public class AuthController {
      * 获取 Token
      */
     @RequestMapping(value = "api/auth/getToken", method= RequestMethod.GET)
-    public ResponseEntity<?> createAuthenticationToken(@ApiParam(required = true, name = "credenceUnique", value = "手机号") @RequestParam("credenceUnique") String credenceUnique) {
+    public ResponseEntity<?> createAuthenticationToken(@ApiParam(required = true, name = "credenceUnique", value = "接口调用者唯一标识") @RequestParam("credenceUnique") String credenceUnique) {
         boolean validate = reqValidator.validate(credenceUnique);
         Map<String,Object> map = new HashMap<>(4);
         map.put("error",1000);
