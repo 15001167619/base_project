@@ -42,51 +42,7 @@ public class UrlInterceptor implements HandlerInterceptor {
             return true;
         }
         JSONObject object = new JSONObject();
-        PrintWriter writer = null;
-        if (handler instanceof HandlerMethod) {
-            Method method = ((HandlerMethod) handler).getMethod();
-            if (AnnotatedElementUtils.isAnnotated(method, Security.class)) {
-                Security security = method.getAnnotation(Security.class);
-                if (security == null) {
-                    return true;
-                }
-                String appKey = security.appKey();
-                String interfaceName = security.interfaceName();
-                long validTime = security.validTime();
-                System.out.println("appKey=" + appKey + "interfaceName=" + interfaceName + "validTime=" + validTime);
-                RequestWrapper requestWrapper = new RequestWrapper(request);
-                String body = requestWrapper.getBody();
-                try {
-                    JSONObject requestParams = JSONObject.parseObject(body);
-                    String requestApiSign = requestParams.getString("apiSign");
-                    String requestAppKey = requestParams.getString("appKey");
-                    String requestDataParams = requestParams.getString("dataParams");
-                    String requestInterfaceName = requestParams.getString("interfaceName");
-                    long requestTimestamp = requestParams.getLong("timestamp");
-                    //接口有效访问时间
-                    if(System.currentTimeMillis() - requestTimestamp > validTime){
-                        writer = httpServletResponse.getWriter();
-                        return isErrorSignData(writer, object);
-                    }
-                    if( StringUtils.isBlank(requestAppKey) || StringUtils.isBlank(requestDataParams)
-                            || StringUtils.isBlank(requestApiSign) ){
-                        writer = httpServletResponse.getWriter();
-                        return isNullParams(writer, object);
-                    }
-                    String currentSign = Md5Utils.hash("appKey=" + appKey
-                            + "#interfaceName=" + requestInterfaceName
-                            + "#timestamp=" + requestTimestamp
-                            + "#dataParams=" + requestDataParams);
-                    if(!requestApiSign.equals(currentSign)){
-                        writer = httpServletResponse.getWriter();
-                        return isErrorSignData(writer, object);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return false;
-            }
-        }
+        PrintWriter writer;
         if(requestMethod.contains(AUTH_PATH)){
             String token = request.getHeader("token");
             String sign = request.getHeader("sign");
@@ -108,6 +64,52 @@ public class UrlInterceptor implements HandlerInterceptor {
                     return isTokenOrSignExpired(writer,object);
                 }
             }
+
+            if (handler instanceof HandlerMethod) {
+                Method method = ((HandlerMethod) handler).getMethod();
+                if (AnnotatedElementUtils.isAnnotated(method, Security.class)) {
+                    Security security = method.getAnnotation(Security.class);
+                    if (security == null) {
+                        return true;
+                    }
+                    String appKey = security.appKey();
+                    String interfaceName = security.interfaceName();
+                    long validTime = security.validTime();
+                    System.out.println("appKey=" + appKey + "interfaceName=" + interfaceName + "validTime=" + validTime);
+                    RequestWrapper requestWrapper = new RequestWrapper(request);
+                    String body = requestWrapper.getBody();
+                    try {
+                        JSONObject requestParams = JSONObject.parseObject(body);
+                        String requestApiSign = requestParams.getString("apiSign");
+                        String requestAppKey = requestParams.getString("appKey");
+                        String requestDataParams = requestParams.getString("dataParams");
+                        String requestInterfaceName = requestParams.getString("interfaceName");
+                        long requestTimestamp = requestParams.getLong("timestamp");
+                        //接口有效访问时间
+                        if(System.currentTimeMillis() - requestTimestamp > validTime){
+                            writer = httpServletResponse.getWriter();
+                            return isErrorSignData(writer, object);
+                        }
+                        if( StringUtils.isBlank(requestAppKey) || StringUtils.isBlank(requestDataParams)
+                                || StringUtils.isBlank(requestApiSign) ){
+                            writer = httpServletResponse.getWriter();
+                            return isNullParams(writer, object);
+                        }
+                        String currentSign = Md5Utils.hash("appKey=" + appKey
+                                + "#interfaceName=" + requestInterfaceName
+                                + "#timestamp=" + requestTimestamp
+                                + "#dataParams=" + requestDataParams);
+                        if(!requestApiSign.equals(currentSign)){
+                            writer = httpServletResponse.getWriter();
+                            return isErrorSignData(writer, object);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }
+            }
+
         }
         return true;
     }
