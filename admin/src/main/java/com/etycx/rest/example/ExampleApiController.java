@@ -45,8 +45,6 @@ public class ExampleApiController extends BaseApiController {
     public Object exampleAdd(@RequestBody Map<String,Object> params) {
         if(params == null){
             return isNullData();
-        }else {
-
         }
         String dataParams = (String)params.get("dataParams");
         if(StringUtils.isNotEmpty(dataParams)){
