@@ -5,6 +5,7 @@ import com.etycx.common.constant.InterfaceAppKeyConstants;
 import com.etycx.common.utils.AesUtil;
 import com.etycx.common.utils.Md5Utils;
 import com.etycx.common.utils.StringUtils;
+import com.etycx.common.annotation.Security;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
         maxAge = 3600,
         methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
-@RequestMapping(value = "api")
+@RequestMapping(value = "api/auth")
 public class ExampleApiController extends BaseApiController {
 
     /**
@@ -39,6 +40,7 @@ public class ExampleApiController extends BaseApiController {
      *
      * @date 2019/6/12 9:47
      */
+    @Security(appKey = InterfaceAppKeyConstants.EXAMPLE_ADD_APP_KEY,interfaceName = "exampleAdd")
     @RequestMapping(value={"exampleAdd"}, method= RequestMethod.POST)
     public Object exampleAdd(@RequestBody Map<String,Object> params) {
         if(params == null){
