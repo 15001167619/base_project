@@ -38,7 +38,6 @@ public class UrlInterceptor implements HandlerInterceptor {
         if(requestMethod==null){
             return false;
         }
-        // 获取 token
         if(TOKEN_PATH.equals(requestMethod)){
             return true;
         }
@@ -64,6 +63,11 @@ public class UrlInterceptor implements HandlerInterceptor {
                     String requestDataParams = requestParams.getString("dataParams");
                     String requestInterfaceName = requestParams.getString("interfaceName");
                     long requestTimestamp = requestParams.getLong("timestamp");
+                    //接口有效访问时间
+                    if(System.currentTimeMillis() - requestTimestamp > validTime){
+                        writer = httpServletResponse.getWriter();
+                        return isErrorSignData(writer, object);
+                    }
                     if( StringUtils.isBlank(requestAppKey) || StringUtils.isBlank(requestDataParams)
                             || StringUtils.isBlank(requestApiSign) ){
                         writer = httpServletResponse.getWriter();
@@ -107,6 +111,11 @@ public class UrlInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+
+    /**
+     * @author 武海升
+     * @description 校验参数是否正确
+     */
     private boolean isErrorSignData(PrintWriter writer, JSONObject object) {
         try {
             object.put("error",10002);
