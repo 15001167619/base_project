@@ -42,22 +42,25 @@ public class UrlInterceptor implements HandlerInterceptor {
             return true;
         }
         JSONObject object = new JSONObject();
+        PrintWriter writer;
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("text/html; charset=utf-8");
-        PrintWriter writer = httpServletResponse.getWriter();
         if(requestMethod.contains(AUTH_PATH)){
             String token = request.getHeader("token");
             String sign = request.getHeader("sign");
             String credenceUnique = request.getHeader("credenceUnique");
             if(StringUtils.isBlank(token) || StringUtils.isBlank(sign) || StringUtils.isBlank(credenceUnique)){
+                writer = httpServletResponse.getWriter();
                 return isNullParams(writer, object);
             }else {
                 boolean flag = jwtTokenUtil.isTokenExpired(token);
                 if(flag){
+                    writer = httpServletResponse.getWriter();
                     return isTokenOrSignExpired(writer,object);
                 }
                 String redisValueByKey = (String) redis.get("token_sign_" + credenceUnique);
                 if(StringUtils.isBlank(redisValueByKey) || !sign.equals(redisValueByKey)){
+                    writer = httpServletResponse.getWriter();
                     return isTokenOrSignExpired(writer,object);
                 }
             }
@@ -89,6 +92,7 @@ public class UrlInterceptor implements HandlerInterceptor {
 //                        }
                         if( StringUtils.isBlank(requestAppKey) || StringUtils.isBlank(requestDataParams)
                                 || StringUtils.isBlank(requestApiSign) ){
+                            writer = httpServletResponse.getWriter();
                             return isNullParams(writer, object);
                         }
                         String currentSign = Md5Utils.hash("appKey=" + appKey
@@ -96,14 +100,11 @@ public class UrlInterceptor implements HandlerInterceptor {
                                 + "#timestamp=" + requestTimestamp
                                 + "#dataParams=" + requestDataParams);
                         if(!requestApiSign.equals(currentSign)){
+                            writer = httpServletResponse.getWriter();
                             return isErrorSignData(writer, object);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    } finally {
-                        if (writer != null){
-                            writer.close();
-                        }
                     }
                 }
             }

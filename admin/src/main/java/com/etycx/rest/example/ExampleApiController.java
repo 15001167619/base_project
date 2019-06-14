@@ -2,15 +2,13 @@ package com.etycx.rest.example;
 
 import com.etycx.common.base.BaseApiController;
 import com.etycx.common.constant.InterfaceAppKeyConstants;
-import com.etycx.common.utils.AesUtil;
-import com.etycx.common.utils.Md5Utils;
 import com.etycx.common.utils.StringUtils;
 import com.etycx.common.annotation.Security;
+import com.etycx.remote.service.IExampleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author 武海升
@@ -24,6 +22,9 @@ import java.util.stream.Stream;
 @RequestMapping(value = "api/auth")
 public class ExampleApiController extends BaseApiController {
 
+    @Autowired
+    private IExampleService exampleService;
+
     /**
      * @author 武海升
      * @description POST 请求示例
@@ -35,9 +36,6 @@ public class ExampleApiController extends BaseApiController {
      *      apiSign:       参数签名
      *                        ---参数签名生成方式: apiSign = md5(原始字符串)
      *                        ---原始字符串组成:   appKey=OiMWgmrILRfLK4IG#interfaceName=exampleAdd#timestamp=timestamp#dataParams=userId=2&name=武海升&age=24
-     *
-     *
-     *
      * @date 2019/6/12 9:47
      */
     @Security(appKey = InterfaceAppKeyConstants.EXAMPLE_ADD_APP_KEY,interfaceName = "exampleAdd")
@@ -48,12 +46,8 @@ public class ExampleApiController extends BaseApiController {
         }
         String dataParams = (String)params.get("dataParams");
         if(StringUtils.isNotEmpty(dataParams)){
-            dataParams = AesUtil.aesDecrypt(dataParams);
-            Map<String, String> dataParamsMap = Stream.of(dataParams.split("&"))
-                    .map(str -> str.split("="))
-                    .collect(Collectors.toMap(s -> s[0], s -> s[1]));
-            //获取入参
-            System.out.println(dataParamsMap);
+            Map<String, String> dataParamsMap = getDataParamsMap(dataParams);
+            return exampleService.exampleAdd(dataParamsMap);
         }
         return isNullData();
     }
